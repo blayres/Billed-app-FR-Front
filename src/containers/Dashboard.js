@@ -145,9 +145,13 @@ export default class {
       this.counter ++
     }
 
-    bills.forEach(bill => {
-      $(`#open-bill${bill.id}`).click((e) => this.handleEditTicket(e, bill, bills))
-    })
+    // fix : pourvoir déplier plusieurs listes, et consulter les tickets de chacune des deux listes.
+    bills.forEach((bill) => {
+      // $(`#open-bill${bill.id}`).click((e) => // ORIGINAL
+      $(`#status-bills-container${index} #open-bill${bill.id}`).click((e) =>
+        this.handleEditTicket(e, bill, bills)
+      );
+    });
 
     return bills
 
