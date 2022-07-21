@@ -24,7 +24,11 @@ export default class NewBill {
     const email = JSON.parse(localStorage.getItem("user")).email
     formData.append('file', file)
     formData.append('email', email)
+    // get file extension
+    const fileExtension = fileName.split(".").pop()
 
+    // check if file extension is an image
+    if(['jpg','jpeg','png'].includes(fileExtension)){
     this.store
       .bills()
       .create({
@@ -39,7 +43,7 @@ export default class NewBill {
         this.fileUrl = fileUrl
         this.fileName = fileName
       }).catch(error => console.error(error))
-  }
+  }}
   handleSubmit = e => {
     e.preventDefault()
     console.log('e.target.querySelector(`input[data-testid="datepicker"]`).value', e.target.querySelector(`input[data-testid="datepicker"]`).value)
