@@ -17,6 +17,7 @@ export default class NewBill {
   }
   handleChangeFile = e => {
     e.preventDefault()
+    document.querySelector(".error-extensionFile").style.display = "none"
     const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
     const filePath = e.target.value.split(/\\/g)
     const fileName = filePath[filePath.length-1]
@@ -43,7 +44,11 @@ export default class NewBill {
         this.fileUrl = fileUrl
         this.fileName = fileName
       }).catch(error => console.error(error))
-  }}
+  } else {
+    // show error-message
+    document.querySelector(".error-extensionFile").style.display = "block"
+    document.querySelector(`input[data-testid="file"]`).value = null  }
+} 
   handleSubmit = e => {
     e.preventDefault()
     console.log('e.target.querySelector(`input[data-testid="datepicker"]`).value', e.target.querySelector(`input[data-testid="datepicker"]`).value)

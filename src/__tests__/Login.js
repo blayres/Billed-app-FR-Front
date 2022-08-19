@@ -106,7 +106,7 @@ describe("Given that I am a user on login page", () => {
           type: "Employee",
           email: inputData.email,
           password: inputData.password,
-          status: "connected",
+          status: "connected"
         })
       );
     });
@@ -165,7 +165,7 @@ describe("Given that I am a user on login page", () => {
         type: "Admin",
         email: "johndoe@email.com",
         password: "azerty",
-        status: "connected",
+        status: "connected"
       };
 
       const inputEmailUser = screen.getByTestId("admin-email-input");
@@ -218,7 +218,7 @@ describe("Given that I am a user on login page", () => {
           type: "Admin",
           email: inputData.email,
           password: inputData.password,
-          status: "connected",
+          status: "connected"
         })
       );
     });
