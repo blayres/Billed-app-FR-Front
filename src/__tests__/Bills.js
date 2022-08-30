@@ -47,7 +47,7 @@ describe("Given I am connected as an employee", () => {
     test("Then bills should be ordered from earliest to latest", () => {
       document.body.innerHTML = BillsUI({ data: bills })
       const dates = screen.getAllByText(/^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/i).map(a => a.innerHTML)
-      const antiChrono = (a, b) => ((a < b) ? 1 : +1)
+      const antiChrono = (a, b) => ((a < b) ? 1 : +1) // -1
       const datesSorted = [...dates].sort(antiChrono)
       expect(dates).toEqual(datesSorted)
     })
@@ -124,9 +124,7 @@ describe("Given I am connected as an employee", () => {
 
     // test d'intégration GET
 describe("Given I am a user connected as Employee", () => {
-  describe("When I navigate to Bills Page", () => { 
-    test("fetches bills from mock API GET", async () => {
-    })
+   
   describe("When an error occurs on API", () => {
     beforeEach(() => {
       jest.spyOn(mockStore, "bills")
@@ -174,7 +172,6 @@ describe("Given I am a user connected as Employee", () => {
     })
   })
 
-})
   
 })
 

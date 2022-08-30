@@ -60,56 +60,6 @@ describe("Given I am connected as an employee", () => {
 })
 
 
- // TEST : handle attached file format
-describe('When I am on NewBill Page and I add an attached file', () => {
-  test('Then the file handler should be run', () => {
-    document.body.innerHTML = NewBillUI();
-    const newBill = new NewBill({
-      document,
-      onNavigate,
-      Store: mockStore,
-      localStorage: window.localStorage,
-    });
-
-    const handleChangeFile = jest.fn(() => newBill.handleChangeFile);
-    const attachedFile = screen.getByTestId('file');
-    attachedFile.addEventListener('change', handleChangeFile);
-    fireEvent.change(attachedFile, {
-      target: {
-        files: [new File(['file.txt'], 'file.txt', { type: 'text/txt' })],
-      },
-    });
-
-    const numberOfFile = screen.getByTestId('file').files.length;
-    expect(numberOfFile).toEqual(1);
-  });
-});
-
-
-// TEST : submit correct form and attached file
-describe('WHEN I am on NewBill page and I submit a correct form', () => {
-  test('THEN I should be redirected to Bills page', () => {
-    document.body.innerHTML = NewBillUI();
-    const newBillContainer = new NewBill({
-      document,
-      onNavigate,
-      Store: null,
-      localStorage: window.localStorage,
-    });
-
-    const handleSubmit = jest.fn(newBillContainer.handleSubmit);
-    newBillContainer.fileName = 'image.jpg';
-
-    const newBillForm = screen.getByTestId('form-new-bill');
-    newBillForm.addEventListener('submit', handleSubmit);
-    fireEvent.submit(newBillForm);
-
-    expect(handleSubmit).toHaveBeenCalled();
-    expect(screen.getAllByText('Mes notes de frais')).toBeTruthy();
-  });
-});
-
-
 
 describe('When I am on NewBill page and I submit a wrong attached file format', () => {
   // TEST : wrong attached file format
@@ -156,9 +106,10 @@ describe('When I am on NewBill page and I submit a wrong attached file format', 
 });
 
 
-// TEST submit form
+
+// POST TEST submit form
 describe("NewBill Integration Test Suites", () => {
-  describe("Given I am auser connected as an employee", () => {
+  describe("Given I am a user connected as an employee", () => {
     describe("When I am on NewBill", () => {
       test("Then I submit completed NewBill form and I am redirected on Bill, methode Post", async() => {
       // route
@@ -202,41 +153,6 @@ describe("NewBill Integration Test Suites", () => {
     })
   })
 })
-
-
-
-
-
-// POST TESTS
-describe('Given I am connected as an employee', () => {
-  describe('When I am on NewBill Page and submit the form', () => {
-
-    test('create a new bill from mock API POST', async () => {
-
-      const bill = [{
-        "id": "47qAXb6fIm2zOKkLzMro",
-        "vat": "80",
-        "fileUrl": "https://test.storage.tld/v0/b/billable-677b6.a…f-1.jpg?alt=media&token=c1640e12-a24b-4b11-ae52-529112e9602a",
-        "status": "pending",
-        "type": "Hôtel et logement",
-        "commentary": "séminaire billed",
-        "name": "encore",
-        "fileName": "preview-facture-free-201801-pdf-1.jpg",
-        "date": "2004-04-04",
-        "amount": 400,
-        "commentAdmin": "ok",
-        "email": "a@a",
-        "pct": 20
-      }]
-      const callStore = jest.spyOn(mockStore, 'bills');
-
-      mockStore.bills().create(bill);
-
-      expect(callStore).toHaveBeenCalled();
-    });
-  });
-});
-
 
 
 
