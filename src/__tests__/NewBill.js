@@ -33,14 +33,17 @@ beforeEach(() => {
 describe("Given I am connected as an employee", () => {
   describe("When I am on NewBill Page", () => {
     test("Then the newBill page should be rendered", () => {
+
+      // On récupère le HTML
       const html = NewBillUI()
       document.body.innerHTML = html
-      //to-do write assertion
 
+      // On défini une nouvelle propriété pour l'objet Window (pour lancer localSotage)
       Object.defineProperty(window, 'localStorage', {
         value: localStorageMock,
       });
     
+      // On ajoute à LocalStorage les valeurs clés pour se connecter en tant qu'employee
       window.localStorage.setItem(
         'user',
         JSON.stringify({
@@ -48,12 +51,20 @@ describe("Given I am connected as an employee", () => {
         })
       );
 
+      // On vérifie que c'est vrai qu'on a bien récupéré la page "Envoyer une note de frais"
       expect(screen.getAllByText('Envoyer une note de frais')).toBeTruthy();
     })
  
+
+
     test('Then a form with nine fields should be rendered', () => {
+      // On récupère le HTML
       document.body.innerHTML = NewBillUI();
+
+      // On récupère le champ 'form'
       const form = document.querySelector('form');
+
+      // On vérifie que la taille du form est égal à 9
       expect(form.length).toEqual(9);
     });
   })
@@ -65,10 +76,10 @@ describe('When I am on NewBill page and I submit a wrong attached file format', 
   // TEST : wrong attached file format
   test('Then the error message should be displayed', () => {});
 
-  // DOM construction
+  // On récupère le HTML
   document.body.innerHTML = NewBillUI();
 
-  // get DOM element
+  // On lance la class de la page et on récupère les éléments aassocies
   const newBillContainer = new NewBill({
     document,
     onNavigate,
@@ -76,10 +87,16 @@ describe('When I am on NewBill page and I submit a wrong attached file format', 
     localStorage: window.localStorage,
   });
 
+  // On crée une fonction simulé de la vrai fonction
   const handleChangeFile = jest.fn(newBillContainer.handleChangeFile);
 
+  // On récupère le champ fichier
   const attachedFile = screen.getByTestId('file');
+
+  // On crée un évenement, dès que le champ sera changé. On appelera la fonction simulé qu'on a créé au-dessus
   attachedFile.addEventListener('change', handleChangeFile);
+
+  // On simule que quelqu'un a ajouté un pdf dans le champ
   fireEvent.change(attachedFile, {
     target: {
       files: [
@@ -90,11 +107,12 @@ describe('When I am on NewBill page and I submit a wrong attached file format', 
     },
   });
 
-  // expected results
+  // On vérifie que la fonction a bien été appelée
   expect(handleChangeFile).toHaveBeenCalled();
+  // On vérifie que le fichier est bien celui qu'on a ajouté
   expect(attachedFile.files[0].name).toBe('document.pdf');
 
-  // get DOM element
+  // 
   const errorMessage = screen.getByTestId('fileFormat-errorMessage');
 
   // expected results

@@ -57,8 +57,10 @@ describe("Given I am connected as an employee", () => {
   // TEST : click on icon eye opens modal & display attached image
   describe('When I am on Bills page and I click on an icon eye', () => {
     test('Then a modal should open', () => {
+      // On récupère le HTML
       document.body.innerHTML = BillsUI({ data: bills });
 
+      // On lance la class de la page et on récupère les éléments aassocies
       const billsContainer = new Bills({
         document,
         onNavigate,
@@ -66,17 +68,23 @@ describe("Given I am connected as an employee", () => {
         localStorage: window.localStorage,
       });
 
+      // On récupère le champ 'modaleFile'
       const modale = document.getElementById('modaleFile')
         $.fn.modal = jest.fn(() => modale.classList.add("show"))
         
+      // On récupère le champ 'icon-eye'
       const iconEye = screen.getAllByTestId('icon-eye')[0];
 
+      // On crée une fonction simulé de la vrai fonction
       const handleClickIconEye = jest.fn(
         billsContainer.handleClickIconEye(iconEye)
       );
 
+      // On crée un évenement, dès qu'on click sur 'iconEye' on appelle la fonction simulé qu'on a créé au-dessus
       iconEye.addEventListener('click', handleClickIconEye);
       userEvent.click(iconEye);
+
+      // On vérifie que la fonction a bien été appelée
       expect(handleClickIconEye).toHaveBeenCalled();
     });
 
